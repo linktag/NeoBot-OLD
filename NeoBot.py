@@ -69,7 +69,7 @@ def pause():
         time.sleep(rnd)
 
 #Introduction
-print ("NeoBot By Linktag for NULLED\n\nThis bot is FREE and OPEN SOURCE, it can be download here :https://github.com/linktag/NeoBot\nIf you buy this programm to anyone, pls report him to Linktag17 on Nulled.io and ask for a refund\n\n")
+print ("NeoBot By Linktag for NULLED\n\nThis bot is FREE and OPEN SOURCE, it can be download here :https://github.com/linktag/NeoBot\nIf you bought this programm, pls report the seller to Linktag17 on Nulled.io and ask for a refund\n\n")
 time.sleep(3)
 
 #on recupère les données
