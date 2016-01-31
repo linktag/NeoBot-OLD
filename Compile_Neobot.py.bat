@@ -1,5 +1,4 @@
-@echo of
-cd "C:\Users\linktag\Desktop\Script Python\"
-C:\Python34\Scripts\pyinstaller NeoBot.py
+@echo off
+C:\Users\Romain\AppData\Local\Programs\Python\Python35-32\Scripts\pyinstaller NeoBot.py
 echo.
 pause

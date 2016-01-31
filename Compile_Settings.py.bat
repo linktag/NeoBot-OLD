@@ -1,5 +1,4 @@
 @echo of
-cd "C:\Users\linktag\Desktop\Script Python\"
-C:\Python34\Scripts\pyinstaller Settings.py
+C:\Users\Romain\AppData\Local\Programs\Python\Python35-32\Scripts\pyinstaller Settings.py
 echo.
 pause
