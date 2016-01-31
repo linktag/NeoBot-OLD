@@ -69,138 +69,149 @@ def pause():
         time.sleep(rnd)
 
 #Introduction
-print ("NeoBot By Linktag for NULLED\n\nThis bot is FREE and OPEN SOURCE, it can be download here :https://github.com/linktag/NeoBot\nIf you bought this programm, pls report the seller to Linktag17 on Nulled.io and ask for a refund\n\n")
-time.sleep(3)
+try:
+    print ("NeoBot By Linktag for NULLED v1.2\n\nThis bot is FREE and OPEN SOURCE, it can be download here :https://github.com/linktag/NeoBot\nIf you bought this programm, pls report the seller to Linktag17 on Nulled.io and ask for a refund\n\n")
+    time.sleep(3)
 
-#on recupère les données
-file = open("data", "r")
-inf = (file.read()).split("\n")
-file.close()
-user = inf[0]
-psw = inf[1]
-speed = inf[2]
-see_addprize = inf[3]
-make_pause = inf[4]
+    #on recupère les données
+    file = open("data", "r")
+    inf = (file.read()).split("\n")
+    file.close()
+    user = inf[0]
+    psw = inf[1]
+    speed = inf[2]
+    see_addprize = inf[3]
+    make_pause = inf[4]
+    browser = inf[5]
 
-#On va commencer par la fonction debut
-i = 1
-print ("Let's go !\n")
+    #On va commencer par la fonction debut
+    i = 1
+    print ("Let's go !\n")
 
-#Ouverture de la page
-print ("1 - Open Firefox and go to Neobux")
-driver = webdriver.Firefox()
-driver.get("https://www.neobux.com/m/l/?vl=1062F974ABAAB97FF378E7C9964A55B1")
+    #Ouverture de la page
+    print ("1 - Open Browser and go to Neobux")
 
-#Connexion à Neobux
-print ("2 - Connection to Neobux with username = "+user+" and password = "+psw)
-driver.find_element_by_id("Kf1").send_keys(user)
-driver.find_element_by_id("Kf2").send_keys(psw)
-
-#On verifie la presence d'un Captcha ( en faites on vérifie si le captcha est caché, et si c'est le cas on ne fait rien, si on ne trouve rien c'est qu'il n'est pas caché et donc on test)
-isPresent = len(driver.find_elements_by_xpath("//input[@id='Kf3'][@type='hidden']"))
-if isPresent == 0:
-    captcha = input("2BIS - A captcha has been detected. Can you please enter it just here :")
-    driver.find_element_by_id("Kf3").send_keys(captcha)
-    
-#On attend d'arriver sur la page principale
-driver.find_element_by_id("botao_login").click()
-time.sleep(randint(4*100,6*100)/100)
-
-#On créer nos variables
-nb_adds=0
-
-#On va maintenant chercher le bouton pour aller sur la page des pubs
-print("3 - Click on advertissment page")
-driver.find_element_by_xpath("//td[@valign='bottom']/table/tbody/tr/td/a[@class='button green'][1]").click()
-
-
-#On compte les pubs a voir
-i=1
-while i!=0:
-    if len(driver.find_elements_by_id("da"+str(i)+"a")) != 0:
-        nb_adds = nb_adds+1
-        i = i+1
+    #On choisit le bon navigateur
+    if browser =="1":
+        driver = webdriver.Chrome("/selenium/webdriver/chrome/chromedriver.exe")
     else:
-        i = 0
+        driver = webdriver.Firefox()
+    driver.get("https://www.neobux.com/m/l/?vl=1062F974ABAAB97FF378E7C9964A55B1")
 
-#On reset i
-i = 1
+    #Connexion à Neobux
+    print ("2 - Connection to Neobux with username = "+user+" and password = "+psw)
+    driver.find_element_by_id("Kf1").send_keys(user)
+    driver.find_element_by_id("Kf2").send_keys(psw)
 
-#On indique le nombre de pub
-print("4 - There is "+str(nb_adds)+" adds on this page.\n \n")
+    #On verifie la presence d'un Captcha ( en faites on vérifie si le captcha est caché, et si c'est le cas on ne fait rien, si on ne trouve rien c'est qu'il n'est pas caché et donc on test)
+    isPresent = len(driver.find_elements_by_xpath("//input[@id='Kf3'][@type='hidden']"))
+    if isPresent == 0:
+        captcha = input("2BIS - A captcha has been detected. Can you please enter it just here :")
+        driver.find_element_by_id("Kf3").send_keys(captcha)
+        
+    #On attend d'arriver sur la page principale
+    driver.find_element_by_id("botao_login").click()
+    time.sleep(randint(4*100,6*100)/100)
 
-#On vérifie si il y a des pubs
-if nb_adds !=0:
+    #On créer nos variables
+    nb_adds=0
+
+    #On va maintenant chercher le bouton pour aller sur la page des pubs
+    print("3 - Click on advertissment page")
+    driver.find_element_by_xpath("//td[@valign='bottom']/table/tbody/tr/td/a[@class='button green'][1]").click()
+
+
+    #On compte les pubs a voir
+    i=1
+    while i!=0:
+        if len(driver.find_elements_by_id("da"+str(i)+"a")) != 0:
+            nb_adds = nb_adds+1
+            i = i+1
+        else:
+            i = 0
+
+    #On reset i
+    i = 1
+
+    #On indique le nombre de pub
+    print("4 - There is "+str(nb_adds)+" adds on this page.\n \n")
+
+    #On vérifie si il y a des pubs
+    if nb_adds !=0:
+
+        #On attend
+        time.sleep(randint(1*100,4*100)/100)
+
+        #On peut commencer a visionner les pubs (si il y en a)
+
+        while i <= (nb_adds):
+            #On affiche le nom
+            print ("Add number "+str(i))
+
+            #On envoie a la fonction pour cliquer tous les données nécéssaire (le driver, l'ID de la pub, le XPAth du bouton rouge et le prix la pub
+            if len(driver.find_elements_by_xpath("//div[@id='da"+str(i)+"a']/div[@class='ad0']"))==0 :
+                driver = addclick(driver, "da"+str(i)+"a", "//span[@id='da"+str(i)+"c']/a[1]", "//table[@id='o1'][@style='display:none;']", speed)
+
+                #On calcul si l'on fait une pause ou non
+                if make_pause ==1:
+                    pause()
+            else:
+                   print("This add has already been seen")
+                
+            #On incremente
+            i = i+1
+            
+            #On saute une ligne
+            print("\n")
+
+
+    #On a finit, on imprime ca !
+    print ("\nAll Adds viewed !! Congratulation =DD \n\n")
+
+    #On finit par recupérer les ADprizes
+    print ("Now we will get our Adprize. Refreshing ")
+
+    #On refresh la page
+    driver.refresh()
 
     #On attend
     time.sleep(randint(1*100,4*100)/100)
 
-    #On peut commencer a visionner les pubs (si il y en a)
+    #On vérifie de base si ils existent
+    isPresent = len(driver.find_elements_by_xpath("//a[@class='button small2 blue']/span[1]"))
+    if isPresent !=0 and see_addprize!=0:
+        #On clique sur le bouton 
+        driver.find_element_by_xpath("//a[@class='button small2 blue']/span[1]").click()
+            
+        #On regarde le nombre d'adprize
+        nb_adprize = int(driver.find_element_by_xpath("//span[@id='ap_hct']/a[1]").text)
 
-    while i <= (nb_adds):
-        #On affiche le nom
-        print ("Add number "+str(i))
+        #On l'affiche
+        print ("\nThere is "+str(nb_adprize)+" adprize to see\n")
+        
+        #On lance la routine
+        i=1
+        while i <= (nb_adprize):
+            #On affiche le nom
+            print ("AdPrize number "+str(i))
 
-        #On envoie a la fonction pour cliquer tous les données nécéssaire (le driver, l'ID de la pub, le XPAth du bouton rouge et le prix la pub
-        if len(driver.find_elements_by_xpath("//div[@id='da"+str(i)+"a']/div[@class='ad0']"))==0 :
-            driver = addclick(driver, "da"+str(i)+"a", "//span[@id='da"+str(i)+"c']/a[1]", "//table[@id='o1'][@style='display:none;']", speed)
+            #On envoie a la fonction pour cliquer tous les données nécéssaire (le driver, l'ID de la pub, le XPAth du bouton rouge et le prix la pub
+            driver = addclick(driver, "ap_hct", 0, "//table[@id='prm0'][@style='padding-bottom:5px;display:none;']", speed)
+            
+            #On incremente
+            i = i+1
 
             #On calcul si l'on fait une pause ou non
             if make_pause ==1:
                 pause()
-        else:
-               print("This add has already been seen")
-            
-        #On incremente
-        i = i+1
-        
-        #On saute une ligne
-        print("\n")
+    else:
+        print ("No adprize")
 
-
-#On a finit, on imprime ca !
-print ("\nAll Adds viewed !! Congratulation =DD \n\n")
-
-#On finit par recupérer les ADprizes
-print ("Now we will get our Adprize. Refreshing ")
-
-#On refresh la page
-driver.refresh()
-
-#On attend
-time.sleep(randint(1*100,4*100)/100)
-
-#On vérifie de base si ils existent
-isPresent = len(driver.find_elements_by_xpath("//a[@class='button small2 blue']/span[1]"))
-if isPresent !=0 and see_addprize!=0:
-    #On clique sur le bouton 
-    driver.find_element_by_xpath("//a[@class='button small2 blue']/span[1]").click()
-	
-    #On regarde le nombre d'adprize
-    nb_adprize = int(driver.find_element_by_xpath("//span[@id='ap_hct']/a[1]").text)
-
-    #On l'affiche
-    print ("\nThere is "+str(nb_adprize)+" adprize to see\n")
-    
-    #On lance la routine
-    i=1
-    while i <= (nb_adprize):
-        #On affiche le nom
-        print ("AdPrize number "+str(i))
-
-        #On envoie a la fonction pour cliquer tous les données nécéssaire (le driver, l'ID de la pub, le XPAth du bouton rouge et le prix la pub
-        driver = addclick(driver, "ap_hct", 0, "//table[@id='prm0'][@style='padding-bottom:5px;display:none;']", speed)
-        
-        #On incremente
-        i = i+1
-
-        #On calcul si l'on fait une pause ou non
-        if make_pause ==1:
-            pause()
-else:
-    print ("No adprize")
-
-#On a terminé, on peut conclure
-print("Congratulation. The bot is terminated and it ll close in 10 secs. Thanks for using it !")
-time.sleep(10)
-driver.close()
+    #On a terminé, on peut conclure
+    print("Congratulation. The bot is terminated and it ll close in 10 secs. Thanks for using it !")
+    time.sleep(10)
+    driver.close()
+except Exception as ex:
+    report_file = open("REPORT.txt", 'wa')
+    report_file.write(time.strftime("%d/%m/%Y")+" at "+time.strftime("%H:%M:%S")+"\n"+ex+"\n\n")
+    raw_input()
