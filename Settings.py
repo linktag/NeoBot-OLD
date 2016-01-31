@@ -1,12 +1,12 @@
 import sys
 x=True
 answer =0
-print ("Welcome to NeoBot's settings !\n")
+print ("Welcome to NeoBot's settings !\n\n")
 while x:
     f = open("data",'r')
     file  = (f.read()).split("\n")
     f.close()
-    print ("\nJust enter the nember of what setting you want to change")
+    print ("Just enter the nember of what setting you want to change")
     print ("1) Username :"+file[0])
     print ("2) Password :"+file[1])
     print ("3) Speed :"+file[2]+"s")
