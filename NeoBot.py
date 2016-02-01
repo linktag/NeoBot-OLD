@@ -212,6 +212,6 @@ try:
     time.sleep(10)
     driver.close()
 except Exception as ex:
-    report_file = open("REPORT.txt", 'wa')
-    report_file.write(time.strftime("%d/%m/%Y")+" at "+time.strftime("%H:%M:%S")+"\n"+ex+"\n\n")
+    report_file = open("REPORT.txt", 'w')
+    report_file.write(time.strftime("%Y")+" at "+time.strftime("%H:%M:%S")+"\n"+ex+"\n\n")
     raw_input()
